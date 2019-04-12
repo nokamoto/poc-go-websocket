@@ -1,0 +1,9 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: nokamoto/poc-go-websocket:latest
+    ports:
+      - 9090:9090
