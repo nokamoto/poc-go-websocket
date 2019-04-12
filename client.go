@@ -11,7 +11,7 @@ type client struct {
 	conn *websocket.Conn
 }
 
-func (c *client) read() {
+func (c *client) echo() {
 	defer func() {
 		c.conn.Close()
 	}()
@@ -31,6 +31,20 @@ func (c *client) read() {
 			break
 		}
 		fmt.Printf("rec: %s\n", string(msg))
+
+		c.conn.SetWriteDeadline(time.Now().Add(60 * time.Second))
+		w, err := c.conn.NextWriter(websocket.TextMessage)
+		if err != nil {
+			fmt.Printf("err: %v\n", err)
+			break
+		}
+
+		w.Write(msg)
+
+		if err := w.Close(); err != nil {
+			fmt.Printf("err: %v\n", err)
+			break
+		}
 	}
 }
 
@@ -51,7 +65,7 @@ func serve(w http.ResponseWriter, r *http.Request) error {
 		conn: conn,
 	}
 
-	go cl.read()
+	go cl.echo()
 
 	return nil
 }

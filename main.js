@@ -8,3 +8,10 @@ socket.addEventListener('open', function (event) {
 socket.addEventListener('message', function (event) {
     console.log('Message from server ', event.data);
 });
+
+var number = 0;
+
+setInterval(function() {
+    number = number + 1;
+    socket.send('echo #' + number);
+}, 3000);
