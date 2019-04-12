@@ -8,7 +8,7 @@ WORKDIR /go/src/github.com/nokamoto/poc-go-websocket
 
 COPY Gopkg.lock .
 COPY Gopkg.toml .
-COPY *.go .
+COPY *.go ./
 
 RUN dep ensure -vendor-only=true
 
