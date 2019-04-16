@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gorilla/websocket"
 	"net/http"
-	"time"
 )
 
 type client struct {
@@ -16,13 +15,12 @@ func (c *client) echo() {
 		c.conn.Close()
 	}()
 
-	c.conn.SetReadLimit(512)
-	c.conn.SetReadDeadline(time.Now().Add(60 * time.Second))
+	// c.conn.SetReadDeadline(time.Now().Add(60 * time.Second))
 
-	c.conn.SetPongHandler(func(string) error {
-		c.conn.SetReadDeadline(time.Now().Add(60 * time.Second))
-		return nil
-	})
+	// c.conn.SetPongHandler(func(string) error {
+	// 	c.conn.SetReadDeadline(time.Now().Add(60 * time.Second))
+	// 	return nil
+	// })
 
 	for {
 		_, msg, err := c.conn.ReadMessage()
@@ -30,21 +28,7 @@ func (c *client) echo() {
 			fmt.Printf("err: %v\n", err)
 			break
 		}
-		fmt.Printf("rec: %s\n", string(msg))
-
-		c.conn.SetWriteDeadline(time.Now().Add(60 * time.Second))
-		w, err := c.conn.NextWriter(websocket.TextMessage)
-		if err != nil {
-			fmt.Printf("err: %v\n", err)
-			break
-		}
-
-		w.Write(msg)
-
-		if err := w.Close(); err != nil {
-			fmt.Printf("err: %v\n", err)
-			break
-		}
+		fmt.Printf("rec: %v\n", msg)
 	}
 }
 
