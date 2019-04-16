@@ -15,13 +15,6 @@ func (c *client) echo() {
 		c.conn.Close()
 	}()
 
-	// c.conn.SetReadDeadline(time.Now().Add(60 * time.Second))
-
-	// c.conn.SetPongHandler(func(string) error {
-	// 	c.conn.SetReadDeadline(time.Now().Add(60 * time.Second))
-	// 	return nil
-	// })
-
 	for {
 		_, msg, err := c.conn.ReadMessage()
 		if err != nil {
