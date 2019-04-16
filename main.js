@@ -5,13 +5,24 @@ socket.addEventListener('open', function (event) {
     socket.send('Hello Server!');
 });
 
-socket.addEventListener('message', function (event) {
-    console.log('Message from server ', event.data);
-});
-
 var number = 0;
 
-setInterval(function() {
-    number = number + 1;
-    socket.send('echo #' + number);
-}, 3000);
+window.onload = function() {
+    navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+    .then(stream => {
+        console.log(stream);
+        var video = document.getElementById('v');
+        video.srcObject = stream;
+
+        var mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.start(5000);
+        mediaRecorder.ondataavailable = function(e) {
+            console.log(e);
+            console.log(e.data);
+            socket.send(e.data);
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
