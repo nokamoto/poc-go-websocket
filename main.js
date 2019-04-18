@@ -11,11 +11,11 @@ window.onload = function() {
     navigator.mediaDevices.getUserMedia({ video: false, audio: true })
     .then(stream => {
         console.log(stream);
-        var video = document.getElementById('v');
-        video.srcObject = stream;
+        // var video = document.getElementById('v');
+        // video.srcObject = stream;
 
         var mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.start(5000);
+        mediaRecorder.start(1000);
         mediaRecorder.ondataavailable = function(e) {
             console.log(e);
             console.log(e.data);

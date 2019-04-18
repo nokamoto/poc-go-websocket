@@ -7,3 +7,7 @@ services:
     image: nokamoto/poc-go-websocket:latest
     ports:
       - 9090:9090
+    volumes:
+      - "./credentials.json:/credentials.json"
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /

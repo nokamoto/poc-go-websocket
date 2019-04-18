@@ -11,12 +11,14 @@ func main() {
 
 	flag.Parse()
 
-	fmt.Printf("start %s\n", *addr)
+	fmt.Printf("start 201904181959 %s\n", *addr)
 
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		err := serve(w, r)
 		if err != nil {
 			fmt.Printf("err: %v\n", err)
+		} else {
+			fmt.Println("serve")
 		}
 	})
 
